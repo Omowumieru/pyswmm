@@ -18,6 +18,7 @@ from pyswmm.output import Output, SubcatchSeries, NodeSeries, LinkSeries, System
 from pyswmm.subcatchments import Subcatchment, Subcatchments
 from pyswmm.system import SystemStats
 from pyswmm.raingages import RainGages, RainGage
+from pyswmm.aquifers import Aquifers
 
 VERSION_INFO = (2, 1, 0)
 
@@ -44,6 +45,7 @@ __all__ = [
     NodeSeries,
     LinkSeries,
     SystemSeries,
+    Aquifers,
 ]
 
 
