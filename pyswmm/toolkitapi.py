@@ -423,6 +423,7 @@ class SubcStats(ctypes.Structure):
         "infil": "infiltration",
         "runoff": "runoff",
         "maxFlow": "peak_runoff_rate",
+        "gwtElev": "gwt_elevation"
     }
 
 

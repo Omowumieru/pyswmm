@@ -7,16 +7,18 @@ from pyswmm.swmm5 import PYSWMMException
 from pyswmm.toolkitapi import ObjectType
 
 class Aquifers(object):
+    """
+    Aquifer Iterator Methods.
+
+    :param object model: Open Model Instance
+    """
+
     def __init__(self, model):
         if not model._model.fileLoaded:
             raise PYSWMMException("SWMM Model Not Open")
         self._model = model._model
         self._cuindex = 0
         self._nAquifers = self._model.getProjectSize(ObjectType.AQUIFER.value)
-
-    # Use this to verify that I know how python scripts work
-    def check_py(self):
-        print("Whoa. It's pretty wet in these voids!")
         
     def __len__(self):
         """
@@ -48,6 +50,19 @@ class Aquifers(object):
     def __iter__(self):
         return self
     
+    def __next__(self):
+        if self._cuindex < self._nAquifers:
+            aquiferobject = self.__getitem__(self._aquiferid)
+            self._cuindex += 1  # Next Iteration
+            return aquiferobject
+        else:
+            raise StopIteration()
+        
+    @property
+    def _aquiferid(self):
+        """Aquifer ID."""
+        return self._model.getObjectId(ObjectType.AQUIFER.value, self._cuindex)
+    
 
 class Aquifer(object):
     """
@@ -55,7 +70,6 @@ class Aquifer(object):
 
     :param object model: Open Model Instance
     :param str aquiferid: Aquifer ID
-
 
     """
          
@@ -65,4 +79,25 @@ class Aquifer(object):
         if aquiferid not in model.getObjectIDList(ObjectType.AQUIFER.value):
             raise PYSWMMException("ID Not valid")
         self._model = model
-        self.aquiferid = aquiferid
+        self._aquiferid = aquiferid
+
+    # --- Get Parameters
+    # -------------------------------------------------------------------------
+    @property
+    def aquiferid(self):
+        """
+        Get Aquifer ID.
+
+        :return: Parameter Value
+        :rtype: float
+
+        Examples:
+
+        >>> from pyswmm import Simulation, Aquifers
+        >>>
+        >>> with Simulation('tests/data/model_weir_setting.inp') as sim:
+        ...     aq1 = Aquifers(sim)["Aq1"]
+        ...     print(aq1.aquiferid)
+        Aq1
+        """
+        return self._aquiferid
