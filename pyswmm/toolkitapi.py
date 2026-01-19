@@ -415,6 +415,7 @@ class SubcStats(ctypes.Structure):
         ("infil", ctypes.c_double),
         ("runoff", ctypes.c_double),
         ("maxFlow", ctypes.c_double),
+        ("gwtElev", ctypes.c_double),
     ]
     _py_alias_ids = {
         "precip": "precipitation",

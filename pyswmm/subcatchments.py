@@ -713,9 +713,11 @@ class Subcatchment(object):
         +-------------------+
         | infiltration      |
         +-------------------+
-        | runoff            |
+        | runoff (L^3)      |
         +-------------------+
         | peak_runoff_rate  |
+        +-------------------+
+        | gwt_elevation     |
         +-------------------+
 
         :return: Group of Stats
