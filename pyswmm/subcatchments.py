@@ -701,7 +701,7 @@ class Subcatchment(object):
     @property
     def statistics(self):
         """
-        Subcatchment Flow Stats. The stats returned are rolling/cumulative.
+        Subcatchment Flow Stats. The stats returned are rolling/cumulative and volumes are given as (L^3).
         Indeces are as follows:
 
         +-------------------+
@@ -713,7 +713,7 @@ class Subcatchment(object):
         +-------------------+
         | infiltration      |
         +-------------------+
-        | runoff (L^3)      |
+        | runoff            |
         +-------------------+
         | peak_runoff_rate  |
         +-------------------+
