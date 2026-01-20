@@ -415,7 +415,6 @@ class SubcStats(ctypes.Structure):
         ("infil", ctypes.c_double),
         ("runoff", ctypes.c_double),
         ("maxFlow", ctypes.c_double),
-        ("gwtElev", ctypes.c_double),
     ]
     _py_alias_ids = {
         "precip": "precipitation",
@@ -424,7 +423,20 @@ class SubcStats(ctypes.Structure):
         "infil": "infiltration",
         "runoff": "runoff",
         "maxFlow": "peak_runoff_rate",
-        "gwtElev": "gwt_elevation"
+    }
+
+class GWState(ctypes.Structure):
+    _fields_ = [
+        ("theta", ctypes.c_double),
+        ("gwtElev", ctypes.c_double),
+        ("maxFlow", ctypes.c_double),
+        ("maxInfilVol", ctypes.c_double),
+    ]
+    _py_alias_ids = {
+        "theta": "theta",
+        "gwtElev": "gwt_elev",
+        "maxFlow": "max_flow",
+        "maxInfilVol": "max_infil_volume",
     }
 
 

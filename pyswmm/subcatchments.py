@@ -717,10 +717,30 @@ class Subcatchment(object):
         +-------------------+
         | peak_runoff_rate  |
         +-------------------+
-        | gwt_elevation     |
-        +-------------------+
 
         :return: Group of Stats
         :rtype: dict
         """
         return self._model.subcatch_statistics(self.subcatchmentid)
+    
+    @property
+    def gw_state(self):
+        """
+        Ground Flow Stats. The stats returned are rolling/cumulative and volumes are given as (L^3).
+        Indeces are as follows:
+        Groundwater state at current time.
+
+        +-------------------+
+        | theta             |
+        +-------------------+
+        | GWT Elevation     |
+        +-------------------+
+        | max_flow          |
+        +-------------------+
+        | max_infil_volume  |
+        +-------------------+
+
+        :return: Groundwater state
+        :rtype: dict
+        """
+        return self._model.groundwater_state(self.subcatchmentid)

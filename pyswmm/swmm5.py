@@ -1378,6 +1378,24 @@ class PySWMM(object):
             if "_" not in attr and attr in alias:
                 dict_stats[alias[attr]] = getattr(stats, attr)
         return dict_stats
+    
+    def groundwater_state(self, ID):
+        """
+        Get current groundwater state.
+
+        :param str ID: Subcatchment ID
+        :return: Group Stats
+        :rtype: dict
+        """
+        index = self.getObjectIDIndex(tka.ObjectType.SUBCATCH.value, ID)
+        stats = solver.gw_get_state(index)
+        alias = tka.GWState._py_alias_ids
+        # Copy Items to Dictionary using Alias Names.
+        dict_stats = {}
+        for attr in dir(stats):
+            if "_" not in attr and attr in alias:
+                dict_stats[alias[attr]] = getattr(stats, attr)
+        return dict_stats
 
     def flow_routing_stats(self):
         """
