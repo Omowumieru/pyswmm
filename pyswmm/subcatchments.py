@@ -726,9 +726,7 @@ class Subcatchment(object):
     @property
     def gw_state(self):
         """
-        Ground Flow Stats. The stats returned are rolling/cumulative and volumes are given as (L^3).
-        Indeces are as follows:
-        Groundwater state at current time.
+        Get/set groundwater state at current time.
 
         +-------------------+
         | theta             |
@@ -743,4 +741,55 @@ class Subcatchment(object):
         :return: Groundwater state
         :rtype: dict
         """
-        return self._model.groundwater_state(self.subcatchmentid)
+        return self._model.groundwater_state(
+            self.subcatchmentid
+            )
+    
+    @gw_state.setter
+    def gw_state(self, array):
+        """Set Groundwater State."""
+        self._model.setGroundwaterState(
+            self._subcatchmentid, array
+        )
+
+# ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# @property
+#     def width(self):
+#         """
+#         Get/set subcatchment width.
+
+#         :return: Parameter Value
+#         :rtype: float
+
+#         Examples:
+
+#         >>> from pyswmm import Simulation, Subcatchments
+#         >>>
+#         >>> with Simulation('tests/data/model_weir_setting.inp') as sim:
+#         ...     s1 = Subcatchments(sim)["S1"]
+#         ...     print(s1.width)
+#         100.0
+
+#         Setting the value
+
+#         >>> from pyswmm import Simulation, Subcatchments
+#         >>>
+#         >>> with Simulation('tests/data/model_weir_setting.inp') as sim:
+#         ...     s1 = Subcatchments(sim)["S1"]
+#         ...     print(s1.width)
+#         ...     s1.width = 30
+#         ...     print(s1.width)
+#         100
+#         30
+#         """
+#         return self._model.getSubcatchParam(
+#             self._subcatchmentid, SubcParams.width.value
+#         )
+
+#     @width.setter
+#     def width(self, param):
+#         """Set Subcatchment Width."""
+#         self._model.setSubcatchParam(
+#             self._subcatchmentid, SubcParams.width.value, param
+#         )
+# # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

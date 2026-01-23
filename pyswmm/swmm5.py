@@ -1543,6 +1543,17 @@ class PySWMM(object):
         index = self.getObjectIDIndex(tka.ObjectType.GAGE.value, ID)
         solver.raingage_set_precipitation(index, value)
 
+    def setGroundwaterState(self, ID, array):
+        """
+        Set groundwater state at current timestep
+        
+        :param str ID: Subcatchment ID
+        :param numpy array: [theta, gwt_elev, max_flow, max_infil_volume]
+        """
+        index = self.getObjectIDIndex(tka.ObjectType.SUBCATCH.value, ID)
+        solver.gw_set_state(index, array)
+
+
     def setNodePollut(self, ID, pollutant_ID, pollutant_value):
         """
         Set water quality results in a Node.
