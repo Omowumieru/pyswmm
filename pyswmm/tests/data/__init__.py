@@ -31,6 +31,7 @@ MODEL_RAIN = os.path.join(DATA_PATH, "model_rain.inp")
 MODEL_LIDS_PATH = os.path.join(DATA_PATH, "model_lids.inp")
 MODEL_BAD_INPUT_PATH_1 = os.path.join(DATA_PATH, "model_bad_input_1.inp")
 MODEL_SUBCATCH_STATS_PATH = os.path.join(DATA_PATH, "model_subcatch_stats.inp")
+MODEL_GROUNDWATER_PATH = os.path.join(DATA_PATH, "model_groundwater.inp")
 
 WIN_SWMM_LIB_PATH = os.path.join(DATA_PATH, "..\\..\\lib\\windows", "swmm5.dll")
 if sys.maxsize > 2**32:

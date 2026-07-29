@@ -1543,15 +1543,18 @@ class PySWMM(object):
         index = self.getObjectIDIndex(tka.ObjectType.GAGE.value, ID)
         solver.raingage_set_precipitation(index, value)
 
-    def setGroundwaterState(self, ID, array):
+    def setGroundwaterState(self, ID, state):
         """
         Set groundwater state at current timestep
-        
+
+        Any key left out of the dict is left unchanged in the solver.
+
         :param str ID: Subcatchment ID
-        :param numpy array: [theta, gwt_elev, max_flow, max_infil_volume]
+        :param dict state: any of the keys theta, gwt_elev, new_flow,
+                           max_infil_volume
         """
         index = self.getObjectIDIndex(tka.ObjectType.SUBCATCH.value, ID)
-        solver.gw_set_state(index, array)
+        solver.gw_set_state(index, state)
 
 
     def setNodePollut(self, ID, pollutant_ID, pollutant_value):

@@ -14,7 +14,9 @@ from pyswmm.tests.data import (
     MODEL_FULL_FEATURES_PATH,
     MODEL_WEIR_SETTING_PATH,
     MODEL_SUBCATCH_STATS_PATH,
+    MODEL_GROUNDWATER_PATH,
 )
+import pytest
 from pytest import approx
 
 UT_PRECISION = 1  # %
@@ -81,3 +83,49 @@ def test_nodes_3():
 
         for step in sim:
             print(S2.statistics)
+
+
+def test_subcatchments_gw_state():
+    with Simulation(MODEL_GROUNDWATER_PATH) as sim:
+        S1 = Subcatchments(sim)["S1"]
+        for step in sim:
+            state = S1.gw_state
+            # all four struct members must survive the round trip through
+            # GWState._py_alias_ids
+            assert set(state) == {
+                "theta",
+                "gwt_elev",
+                "new_flow",
+                "max_infil_volume",
+            }
+            break
+
+
+def test_subcatchments_gw_state_setter():
+    with Simulation(MODEL_GROUNDWATER_PATH) as sim:
+        S1 = Subcatchments(sim)["S1"]
+        for step in sim:
+            before = S1.gw_state
+
+            # a partial dict must leave the other members alone
+            S1.gw_state = {"gwt_elev": 18.5}
+            after = S1.gw_state
+            assert after["gwt_elev"] == approx(18.5)
+            assert after["theta"] == approx(before["theta"])
+            assert after["max_infil_volume"] == approx(before["max_infil_volume"])
+
+            S1.gw_state = {"theta": 0.22, "max_infil_volume": 1.5}
+            after = S1.gw_state
+            assert after["theta"] == approx(0.22)
+            assert after["max_infil_volume"] == approx(1.5)
+            assert after["gwt_elev"] == approx(18.5)
+            break
+
+
+def test_subcatchments_gw_state_bad_key():
+    with Simulation(MODEL_GROUNDWATER_PATH) as sim:
+        S1 = Subcatchments(sim)["S1"]
+        for step in sim:
+            with pytest.raises(KeyError):
+                S1.gw_state = {"gwt_elve": 18.5}
+            break

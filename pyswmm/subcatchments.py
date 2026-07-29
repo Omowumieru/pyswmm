@@ -731,12 +731,24 @@ class Subcatchment(object):
         +-------------------+
         | theta             |
         +-------------------+
-        | GWT Elevation     |
+        | gwt_elev          |
         +-------------------+
-        | max_flow          |
+        | new_flow          |
         +-------------------+
         | max_infil_volume  |
         +-------------------+
+
+        Setting takes a dict of any subset of those keys; members left out are
+        not modified.
+
+        Examples:
+
+        >>> from pyswmm import Simulation, Subcatchments
+        >>>
+        >>> with Simulation('model.inp') as sim:
+        ...     s1 = Subcatchments(sim)["S1"]
+        ...     for step in sim:
+        ...         s1.gw_state = {'gwt_elev': 12.4}
 
         :return: Groundwater state
         :rtype: dict
@@ -744,32 +756,15 @@ class Subcatchment(object):
         return self._model.groundwater_state(
             self.subcatchmentid
             )
-    
+
     @gw_state.setter
     def gw_state(self, state_vars_updates):
         """
         Set Groundwater State.
-        Default values of -999 are ignored.
+        Keys omitted from the dict are left unchanged.
         """
-        state_vars = {
-            'theta': -999, 
-            'gwt_elev': -999, 
-            'new_flow': -999,
-            'max_infil_volume': -999
-            }
-        
-        state_vars.update(state_vars_updates)
-        
-        # construct list of four floats in the proper order so SWiG doesn't get mad
-        state_vars_list = [
-            float(state_vars['theta']),
-            float(state_vars['gwt_elev']),
-            float(state_vars['new_flow']),
-            float(state_vars['max_infil_volume'])
-        ]        
-
         self._model.setGroundwaterState(
-            self._subcatchmentid, state_vars_list
+            self._subcatchmentid, state_vars_updates
         )
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

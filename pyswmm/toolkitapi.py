@@ -429,13 +429,13 @@ class GWState(ctypes.Structure):
     _fields_ = [
         ("theta", ctypes.c_double),
         ("gwtElev", ctypes.c_double),
-        ("maxFlow", ctypes.c_double),
+        ("newFlow", ctypes.c_double),
         ("maxInfilVol", ctypes.c_double),
     ]
     _py_alias_ids = {
         "theta": "theta",
         "gwtElev": "gwt_elev",
-        "maxFlow": "max_flow",
+        "newFlow": "new_flow",
         "maxInfilVol": "max_infil_volume",
     }
 
