@@ -767,6 +767,30 @@ class Subcatchment(object):
             self._subcatchmentid, state_vars_updates
         )
 
+    @property
+    def gw_eqn(self):
+        """Getter required for setter to function."""
+        return getattr(self, "_gw_eqn", None)
+    
+    @gw_eqn.setter
+    def gw_eqn(self, value_tuple):
+        """
+        Set custom Groundwater Equation by overwriting default 
+        equations for lateral/deep groundwater flow.
+        """
+        eqn_type, eqn = value_tuple
+
+        # check equation type input
+        eqn_type = str(eqn_type).upper()
+        if eqn_type not in ('LAT', 'DEEP'):
+            raise ValueError(
+                f"Invalid eqn_type '{eqn_type}'. Must be 'LAT' or 'DEEP'."
+            )
+        # print(f"index: {self._subcatchmentid}, eqn_type: {eqn_type}, eqn: {eqn}")
+        self._gw_eqn = (eqn_type, str(eqn))
+        self._model.setGroundwaterCustomEqn(
+            self._subcatchmentid, eqn_type, str(eqn)
+        )
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # @property
 #     def width(self):

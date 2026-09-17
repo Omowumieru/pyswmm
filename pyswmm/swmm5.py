@@ -1556,6 +1556,17 @@ class PySWMM(object):
         index = self.getObjectIDIndex(tka.ObjectType.SUBCATCH.value, ID)
         solver.gw_set_state(index, state)
 
+    def setGroundwaterCustomEqn(self, ID, eqn_type, eqn):
+        """
+        Set custom equation for lateral or deep groundwater flow to overwrite typical equations.
+
+        :param str ID: Subcatchment ID
+        :param str eqn_type: "LAT" for lateral or "DEEP" for groundwater flow equation
+                             being overwritten
+        :param str eqn: Any well-formed math expression (see SWMM documentation for details).
+        """
+        index = self.getObjectIDIndex(tka.ObjectType.SUBCATCH.value, ID)
+        solver.gw_set_custom_eqns(index, eqn_type, eqn)
 
     def setNodePollut(self, ID, pollutant_ID, pollutant_value):
         """
